@@ -14,6 +14,8 @@ export default class HomeDepartamentos extends Component {
         status: false
     }
 
+    botonEliminar = React.createRef();
+
     loadDepartamentos = () => {
         let request = "api/Departamentos";
         axios.get(this.url + request).then(response => {
@@ -24,23 +26,33 @@ export default class HomeDepartamentos extends Component {
         })
     }
 
-    // deleteDepartamento = (id) => {
-    //     let request = "api/Departamentos/" + id
-    //     axios.delete(this.url + request).then(response=>{
-    //         console.log("Eliminado")
-    //         Swal.fire({
-    //             icon: 'success',
-    //             title: "El departamento se ha eliminado correctamente",
-    //             timer: 3000,
-    //             timerProgressBar: true
-    //         }).then(() => {
-
-    //         })
-    //     })
-    // }
-
     componentDidMount = () => {
         this.loadDepartamentos();
+    }
+
+    deleteDepartamento = () => {
+        Swal.fire({
+            icon: 'question',
+            title: '¿Desea eliminar el departamento?',
+            timer: 3000,
+            timerProgressBar: true,
+            showCancelButton: true
+        }).then((result)=>{
+            if(result.isConfirmed){
+                let id = this.botonEliminar.current.value;
+                let request = "api/Departamentos/" + id;
+                axios.delete(this.url + request).then(response=>{
+                    Swal.fire({
+                        icon: 'success',
+                        title: 'Departamento eliminado correctamente',
+                        timer: 3000,
+                        timerProgressBar: true
+                    }).then(() => {
+                        this.loadDepartamentos();
+                    })
+                })
+            }
+        })
     }
 
   render() {
@@ -70,11 +82,9 @@ export default class HomeDepartamentos extends Component {
                                         <td>{dept.localidad}</td>
                                         <td>
                                             <NavLink to={"/updatedepartamento/" + dept.numero + "/" + dept.nombre + "/" + dept.localidad}>
-                                                <button className='btn btn-warning'>UPDATE</button>
+                                                <button className='btn btn-warning me-2'>UPDATE</button>
                                             </NavLink>
-                                            <button onClick={this.deleteDepartamento(dept.numero)} className='btn btn-danger'>
-                                                DELETE
-                                            </button>
+                                            <button onClick={this.deleteDepartamento} value={dept.numero} ref={this.botonEliminar} className='btn btn-danger'>DELETE</button>
                                         </td>
                                     </tr>
                                 )
