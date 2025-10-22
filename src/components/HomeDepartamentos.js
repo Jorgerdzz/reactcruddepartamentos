@@ -4,6 +4,7 @@ import axios from 'axios';
 import imagen from '../assets/images/Loading_2.gif';
 import { NavLink } from 'react-router-dom';
 import Swal from 'sweetalert2';
+import DetailsDepartamento from './DetailsDepartamento';
 
 export default class HomeDepartamentos extends Component {
 
@@ -11,10 +12,12 @@ export default class HomeDepartamentos extends Component {
 
     state = {
         departamentos: [],
-        status: false
+        status: false,
+        iddepartamento: 0
     }
 
     botonEliminar = React.createRef();
+    botonDetails = React.createRef();
 
     loadDepartamentos = () => {
         let request = "api/Departamentos";
@@ -55,6 +58,12 @@ export default class HomeDepartamentos extends Component {
         })
     }
 
+    mostrarDepartamento = (numero) => {
+        this.setState({
+            iddepartamento:numero
+        })
+    }
+
   render() {
     return (
       <div>
@@ -84,6 +93,7 @@ export default class HomeDepartamentos extends Component {
                                             <NavLink to={"/updatedepartamento/" + dept.numero + "/" + dept.nombre + "/" + dept.localidad}>
                                                 <button className='btn btn-warning me-2'>UPDATE</button>
                                             </NavLink>
+                                            <button onClick={()=>this.mostrarDepartamento(dept.numero)} className='btn btn-success me-2'>DETAILS</button>
                                             <button onClick={this.deleteDepartamento} value={dept.numero} ref={this.botonEliminar} className='btn btn-danger'>DELETE</button>
                                         </td>
                                     </tr>
@@ -92,6 +102,10 @@ export default class HomeDepartamentos extends Component {
                         }
                     </tbody>
                 </table>
+                {
+                    this.state.iddepartamento != 0 &&
+                    <DetailsDepartamento iddepartamento={this.state.iddepartamento}/>
+                }
             </div>
         }  
       </div>
