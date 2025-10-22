@@ -2,6 +2,7 @@ import React, { Component } from 'react'
 import Global from '../Global'
 import axios from 'axios';
 import imagen from '../assets/images/Loading_2.gif';
+import { NavLink } from 'react-router-dom';
 
 export default class HomeDepartamentos extends Component {
 
@@ -32,14 +33,15 @@ export default class HomeDepartamentos extends Component {
         {
             !this.state.status ?
             <img src={imagen}></img>:
-            <div>
-                <h1>Home Departamentos</h1>
-                <table className='table table-dark table-striped"'>
+            <div className='mx-auto' style={{width: "50%"}}>
+                <h1 className='text-center m-3'>Home Departamentos</h1>
+                <table className='table table-dark table-striped m-3'>
                     <thead>
                         <tr>
                             <th>NÚMERO</th>
                             <th>NOMBRE</th>
                             <th>LOCALIDAD</th>
+                            <th>ACCIONES</th>
                         </tr>
                     </thead>
                     <tbody>
@@ -50,6 +52,11 @@ export default class HomeDepartamentos extends Component {
                                         <td>{dept.numero}</td>
                                         <td>{dept.nombre}</td>
                                         <td>{dept.localidad}</td>
+                                        <td>
+                                            <NavLink to={"/updatedepartamento/" + dept.numero + "/" + dept.nombre + "/" + dept.localidad}>
+                                                <button className='btn btn-warning'>UPDATE</button>
+                                            </NavLink>
+                                        </td>
                                     </tr>
                                 )
                             })
