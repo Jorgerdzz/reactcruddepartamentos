@@ -19,10 +19,8 @@ export default class DetailsDepartamento extends Component {
         })
     }
 
-    componentDidUpdate = (oldProps) =>{
-        if(oldProps.iddepartamento !=  this.props.iddepartamento){
-            this.showDepartamento();
-        }
+    componentDidMount = () => {
+        this.showDepartamento();
     }
 
   render() {

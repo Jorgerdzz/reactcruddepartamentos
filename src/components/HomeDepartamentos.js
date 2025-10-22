@@ -13,7 +13,6 @@ export default class HomeDepartamentos extends Component {
     state = {
         departamentos: [],
         status: false,
-        iddepartamento: 0
     }
 
     botonEliminar = React.createRef();
@@ -58,12 +57,6 @@ export default class HomeDepartamentos extends Component {
         })
     }
 
-    mostrarDepartamento = (numero) => {
-        this.setState({
-            iddepartamento:numero
-        })
-    }
-
   render() {
     return (
       <div>
@@ -93,7 +86,7 @@ export default class HomeDepartamentos extends Component {
                                             <NavLink to={"/updatedepartamento/" + dept.numero + "/" + dept.nombre + "/" + dept.localidad}>
                                                 <button className='btn btn-warning me-2'>UPDATE</button>
                                             </NavLink>
-                                            <button onClick={()=>this.mostrarDepartamento(dept.numero)} className='btn btn-success me-2'>DETAILS</button>
+                                            <NavLink to={"/detailsdepartamento/" + dept.numero} className='btn btn-success me-2'>DETAILS</NavLink>
                                             <button onClick={this.deleteDepartamento} value={dept.numero} ref={this.botonEliminar} className='btn btn-danger'>DELETE</button>
                                         </td>
                                     </tr>
@@ -102,10 +95,6 @@ export default class HomeDepartamentos extends Component {
                         }
                     </tbody>
                 </table>
-                {
-                    this.state.iddepartamento != 0 &&
-                    <DetailsDepartamento iddepartamento={this.state.iddepartamento}/>
-                }
             </div>
         }  
       </div>
